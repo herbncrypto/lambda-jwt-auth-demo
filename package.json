@@ -1,0 +1,31 @@
+{
+  "name": "lambda-jwt-auth-demo",
+  "description": "A POC for an auth service powered by lambda functions and MongoDB",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://www.mrozilla.cz",
+  "repository": "https://github.com/mrozilla/lambda-jwt-auth-demo",
+  "bugs": "https://github.com/mrozilla/lambda-jwt-auth-demo/issues",
+  "author": "Jan Hruby <jan@mrozilla.cz>",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "dotenv": "^6.2.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "netlify-lambda": "^1.1.1"
+  },
+  "scripts": {
+    "start:lambda": "netlify-lambda serve src/lambda/routes -c ./src/lambda/webpack.lambda.js",
+    "build:lambda": "netlify-lambda build src/lambda/routes",
+    "lint": "eslint 'src/**/*.js'"
+  }
+}
