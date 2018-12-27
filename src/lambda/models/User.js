@@ -86,6 +86,42 @@ UserSchema.statics.signup = async function signup(username, email, password) {
   }
 };
 
+UserSchema.statics.login = async function login(username, email, password) {
+  try {
+    // check if required data received
+    if (!((username || email) && password)) {
+      throw new ServerError(400, 'Parameters "username" or "email" and "password" are required');
+    }
+
+    // search for a user based on username or email
+    // update last login date
+    const user = await this.findOneAndUpdate(
+      {
+        $or: [{ username }, { email }],
+      },
+      { loginDate: Date.now() },
+    );
+
+    // check if such user exists
+    if (!user) {
+      throw new ServerError(401, 'User not found');
+    }
+
+    // check if password matches
+    if (!(await bcrypt.compare(password, user.password))) {
+      throw new ServerError(401, 'Incorrect password');
+    }
+
+    // all went well, return JWT token
+    return jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXP,
+    });
+  } catch (error) {
+    // something went bad, pass error up
+    throw error;
+  }
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // model
 // ─────────────────────────────────────────────────────────────────────────────
