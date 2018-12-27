@@ -140,6 +140,22 @@ UserSchema.statics.logout = async function logout(id) {
   }
 };
 
+UserSchema.statics.delete = async function deleteAccount(id) {
+  try {
+    // check if required data received
+    if (!id) {
+      throw new ServerError(400, 'Parameters "id" are required');
+    }
+
+    // search for a user based on id
+    // remove user data
+    await this.findByIdAndDelete(id);
+  } catch (error) {
+    // something went bad, pass error up
+    throw error;
+  }
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 // model
 // ─────────────────────────────────────────────────────────────────────────────
